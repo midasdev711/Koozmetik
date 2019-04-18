@@ -1,0 +1,92 @@
+.footer__menu-link  {
+ color: white;
+ cursor: pointer;
+}
+.cart__btn_on_Delivery{
+    height: 3.75rem;
+    width: 21.4375rem;
+    font-size: 1.875rem;
+}
+a{
+    color:inherit;
+    cursor: pointer;
+}
+.add-pro-btn{
+    width: 16.4375rem !important;
+    margin-top: 0;
+}
+.sidebar {   
+    z-index: 999;      
+}
+.heading-primary, h1{font-size: 4.00rem}
+
+@media only screen and (min-width: 768px){
+    .shop__products-group {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: inherit;
+        -webkit-box-align: stretch;
+        -ms-flex-align: stretch;
+        align-items: stretch;
+        -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+        justify-content: space-between;
+    }
+    .product-box {
+        width: 33.33%;
+        padding: 1.25rem 1.875rem 2.5rem 1.25rem;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+        -webkit-box-pack: start;
+        -ms-flex-pack: start;
+        justify-content: flex-start;
+        float: left;
+        min-height: 700px;
+    }
+    
+
+    .product-box+.product-box {
+        border-top: 0;
+        border-left: 0px solid #e1e1e1;
+    }
+    .product-box {
+        border-top: 0;
+        border-right: 1px solid #e1e1e1;
+        border-bottom: 1px solid #e1e1e1;
+    }
+    .shop__products-group li:nth-child(3n+3) {
+        border-left:0px solid #e1e1e1;
+        border-right:0px;
+    }
+    .hero__social-label_custome {
+        -webkit-transform: rotate(-90deg) translate(-3.5rem, -0.5rem);
+        -ms-transform: rotate(-90deg) translate(-3.5rem, -0.5rem);
+        transform: rotate(-90deg) translate(-3.5rem, -1.0rem);
+    }
+    .hero__social-label_custome_fr {
+        -webkit-transform: rotate(-90deg) translate(-3.5rem, -0.5rem);
+        -ms-transform: rotate(-90deg) translate(-3.5rem, -0.5rem);
+        transform: rotate(-90deg) translate(-3.5rem, -2.0rem);
+    }
+    .language-switch__line{width:3.125rem !important;margin:0 1.25rem}
+    
+}
+@media(max-width:767px){
+    .language-switch__line{width:2.125rem !important;margin:0 1.25rem}
+    .heading-primary, h1{font-size: 4.00rem}
+
+    .sidebar {   
+        z-index: 999;
+        padding: 0.75rem
+       
+    }
+    .footer__menu-item,.language-switch__label,.paragraph--big{font-size:1.2rem}
+}
