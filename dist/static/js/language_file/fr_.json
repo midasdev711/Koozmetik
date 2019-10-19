@@ -1,0 +1,105 @@
+{
+    "language":"French",
+
+    "Menu_About":"à propos de nous",
+    "Menu_Ingredients":"Ingrédients",
+    "Menu_News":"nouvelles",
+    "Menu_Online_Shop":"boutique en ligne",
+    "Menu_Blog":"liste de blogs",
+    "Menu_Contact":"contact",
+
+
+    "Home_scroll_more":"faire défiler pour plus",
+    "Home_our_shop":"de notre magasin",
+    "Home_about_us":"à propos de nous",
+    "Home_news":"nouvelles",
+    "Home_blog":"Blog",
+    "Home_about_us_Text":"Nous sommes une équipe avec des critères élevés. Nous nous consacrons pleinement chaque jour. Nous aimons rire et fournir à notre corps une énergie positive. Nous sommes créatifs et curieux, et nous trouvons du plaisir dans tout ce qui est beau. Nous sommes convaincus qu'il est tout aussi important de nourrir votre corps, votre esprit et vos émotions.",
+
+
+    "About_Main_Title":"Tout ce qui est en excès est",
+    "About_Main_Title2":"opposé par nature",
+    "About_Hippocrates":"Hippocrate",
+    "About_Minimalism":"minimalisme",
+    "About_Minimalism_Text":"Trouvez l'essence dans le chaos de la vie quotidienne. Purifiez-le. Améliorer la qualité de la vie. Gagnez du temps et de l'énergie.",
+    "About_Holistic_Approach":"approche holistique",
+    "About_Holistic_Approach_Text":"Nous croyons que tout dans la nature est connecté. Il est également important de nourrir le corps, l'esprit et les émotions. Nous nous efforçons d’élargir nos perspectives, de rester actifs et positifs, de compter sur la nature.",
+    "About_Essence":"essence",
+    "About_Essence_Text":"Design simple et raffiné. Ingrédients et formules soigneusement sélectionnés. Fait main. Rejeter tout ce qui est inutile. Ne laissant que le meilleur.",
+    "About_Last_Text":"Lorem ipsum dolor sit amet, consectetur elit adipiscing. Imperenet exen et sollicitudin venenatis. Pellentesque porttitor nulla er eros euismod, assis amet ornare nunc rhoncus. Quisque fringilla consectetur arcu vitae euismod. Donec et iaculis dui. Nullam augue arcu, cursus élémentaire, fermentum finibus lacus. Donec sit amet tincidunt est. Maecenas quis condimentum magna. Sed bibendum à orci vitae pretium. Curabitur nisi tellus, dictum bibendum dapibus vitae, tempus id mauris. Fusce sodales, leçon de vie, le sommeil, le sommeil, le temps, le temps, le temps.",
+    "About_Last_Text1":"Nunc lobortis, orci a fringilla bibendum, ligula velit eleifend augue, vitae vestibulum lacus mauris ac tellus. Duis sit amet convallis urna. Quisque euismod velit eu metus volutpat aliquam. Auteur de l'Aenean nunc vitae odio imperdiet commodo. Nullam diam nulla, bibendum vel lorem vitae, ultricies blandit metus. Mécène pulvinar risus vitae egestas laoreet. Sed ultrices urna quis ex molestie tempus. Maecenas sed orci quam. Nulla maximus elit id mauris ultrices gravida. Sed ultrices urna quis ex molestie tempus. Maecenas sed orci quam. Nulla maximus elit id mauris ultrices gravida. Sed ultrices urna quis ex molestie tempus.",
+
+
+    "Contact_Headquarters":"quartier général",
+    "Contact_Address":"adresse",
+    "Contact_Phone":"téléphone",
+    "Contact_email":"email",
+    "Contact_Map":"Montrer sur la carte",
+
+
+    "Cart":"Chariot",
+    "Cart_Empty":"Votre panier est vide",
+    "Cart_Image":"Image",
+    "Cart_Title":"Titre",
+    "Cart_Quantity":"Quantité",
+    "Cart_Price":"Prix",
+    "Cart_Checkout":"check-out",
+    "Cart_Total":"Total",
+
+    "Shop_All":"Tout",
+    "Shop_No_Products":"Désolé, aucun produit n'est actuellement disponible!",
+    "Shop_Check_Back":"Plaes Reviens bientôt",
+
+    "Product_No_Details":"Pas de détails sur le produit disponible",
+    "Product_Add_Cart":"ajouter au panier",
+    "Product_Back":"arrière",
+    "Product_Share":"partager",
+    "Product_Added":"Produit ajouté avec succès",
+    "Product_Accompany":"accompagner",
+    "Product_Variant_Info_Msg":"Please sélect product variant",
+
+    "Ingredients_Main_Title":"Les jardins disent, ralentissez, regardez autour de vous, croyez, espérez.",
+    "Ingredients_Main":"Les produits KOOZMETIK sont fabriqués à partir d'ingrédients naturels de première qualité provenant de toutes les régions du monde, selon des recettes spéciales et selon les normes de production les plus strictes, et conformément à tous les certificats nationaux et européens. Les produits KOOZMETIK sont emballés dans un emballage sûr, fonctionnel et simple, composé à 100% de papier recyclé qui protège la qualité du produit.",
+    "Ingredients_Yes_to":"Oui à",
+    "Ingredients_Yes_to_Data":"huile d'amande douce / huile de jojoba / huile de noisette / huile de pépins de raisin / huile de noix de coco / huile de calendula / huile d'avocat / huile d'olive extra vierge / huile de cantarion / huile de noyau d'abricot / huile de noix de macadamia / huile d'argan / huile de ricin / beurre de karité / monoï de beurre de tahiti / beurre de cacao / aloe vera / cire d'abeille naturelle / collagène naturel / vitamine A / vitamine E / acide hyaluronique / extraits de goyave / extrait de framboise / panthénol provitamine B5 / protéine de blé / soie naturelle naturelle / bicarbonate de sodium / thé vert biologique",
+    "Ingredients_Yes_to_Essential_oils":"huiles essentielles",
+    "Ingredients_Yes_to_Essential_oils_Data":"avande / romarin / géranium / ylang ylang / citron vert / citron / citronelle / bergamote / palmarosa / rose / bois de santal / pamplemousse / baie / arbre à thé / menthe / petit grain",
+    "Ingredients_Yes_to_natural_extracts":"extraits naturels",
+    "Ingredients_Yes_to_natural_extracts_Data":"vanille / noix de coco / melon / mandarine / chocolat / fraise / concombre",
+    "Ingredients_No_to":"Non à",
+    "Ingredients_No_to_Data":"paraben / lanoline / imidazolidinyl urée et diazolidinyl urée / huile minérale paraffinique liquide, vaseline, pétrolatum, pétrole / propylèneglycol / laurylsulfate de sodium (SLS) / lauryléthersulfate de sodium (SLES) / triéthanolamine / diméthicon / diméthicon / diéthyltoluolamides parfums artificiels / couleurs artificielles",
+    "Ingredients_Image_Data":"Les produits véritablement naturels sont toujours frais et donc nutritifs non seulement pour le corps humain, mais également pour les microbes. Pour conserver ces produits plus longtemps et les empêcher de se gâter, stockez-les dans des endroits secs, froids et sombres et lavez-vous les mains avant de les appliquer. Tous les produits sont uniquement à usage externe. Lisez attentivement la liste des ingrédients et la méthode d'application. En cas de réactions indésirables, arrêtez l'application et consultez votre médecin.",
+
+    "Error_Blog_List":"Désolé, aucune liste de blogs n'est disponible!",
+    "Error_Blog_Details":"Désolé, aucun détail de blog disponible!",
+
+    "Error_Product_Categorie":"Aucune catégorie de produit disponible",
+    "Error_Product_List":"Aucun produit disponible",
+
+
+    "Oder_Payment_on_Delivery":"Paiement à la livraison",
+    "Personalia_Info":"Informations personnelles",
+    "First_Name":"Prénom",
+    "Last_Name":"Nom de famille",
+    "Delivery_Address":"Adresse de livraison",
+    "Delivery_Street":"rue",
+    "Delivery_City":"Ville",
+    "Delivery_Zipcode":"Code postal",
+    "Delivery_Floor":"Sol",
+    "Delivery_Apartment_Number":"Numéro d'appartement",
+    "Same_As_Delivery_Address_Please_Check_Checkbox":"Identique à l'adresse de livraison, veuillez cocher la case",
+    "Billing_Address":"Adresse de facturation",
+    "Billing_Name":"prénom",
+    "Billing_Street":"rue",
+    "Billing_City":"Ville",
+    "Billing_Zipcode":"Code postal",
+    "Billing_Phone_Number":"Numéro de téléphone",
+    "Comments":"commentaires",
+    "Button_Ok":"D'accord",
+
+    "Allow_Paypal_Payment":true,
+    "Allow_Stripe_Payment":true,
+    "Allow_Payment_Delivery":true,
+
+    "Error_News_List":"Désolé, aucune liste de nouvelles n'est actuellement disponible"
+}

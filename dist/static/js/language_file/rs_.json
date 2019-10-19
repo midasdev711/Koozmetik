@@ -1,0 +1,106 @@
+{
+    "language":"serbian",
+
+    "Menu_About":"о нама",
+    "Menu_Ingredients":"sastojci",
+    "Menu_News":"vesti",
+    "Menu_Online_Shop":"Online prodavnica",
+    "Menu_Blog":"blog lista",
+    "Menu_Contact":"kontakt",
+
+
+
+    "Home_scroll_more":"skrolujte se za više",
+    "Home_our_shop":"iz naše prodavnice",
+    "Home_about_us":"o nama",
+    "Home_news":"vesti",
+    "Home_blog":"blog",
+    "Home_about_us_Text":"Mi smo tim sa visokim kriterijumima. Svakodnevno se posvetimo puno. Volimo da se smejemo i snabdevamo naša tela pozitivnom energijom. Mi smo kreativni i radoznali, i uživamo u svemu što je lepo. Uvjereni smo da je jednako važno hraniti svoje tijelo, um i emocije.",
+
+    "About_Main_Title":"Sve je više",
+    "About_Main_Title2":"nasuprot prirode",
+    "About_Hippocrates":"Hipokrat",
+    "About_Minimalism":"minimalizam",
+    "About_Minimalism_Text":"Nađite suštinu u haosu svakodnevnog života. Pročisti. Poboljšajte kvalitet života. Uštedite vreme i energiju.",
+    "About_Holistic_Approach":"holistički pristup",
+    "About_Holistic_Approach_Text":"Verujemo da je sve u prirodi povezano. Jednako je važno hraniti telo, um i emocije. Trudimo se da proširimo svoje perspektive, da ostanemo aktivni i pozitivni, da se oslanjamo na prirodu.",
+    "About_Essence":"Duša",
+    "About_Essence_Text":"Jednostavan i prefinjen dizajn. Pažljivo izabrani sastojci i formule. Ručna izrada. Odbaciti sve nepotrebno. Ostavljaju samo najbolje.",
+    "About_Last_Text":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Anean imperdiet ek et sollicitudin venenatis. Pellenteskue porttitor nulla er eros euismod, sit amet ornare nunc rhoncus. Kuiskue fringilla consectetur arcu vitae euismod. Donec i iaculis dui. Nullam augue arcu, element cursus ut, fermentum finibus lacus. Donec sit amet tincidunt est. Maecenas kuis condimentum magna. Sed bibendum na orci vitae pretium. Curabitur nisi rekao, dictum bibendum dapibus vitae, tempus id mauris. Fusce sodales, leo vel auctor viverra, urna ipsum tincidunt eros, ili imperijski metus nisl eu lacus.",
+    "About_Last_Text1":"Nunc lobortis, orci a fringilla bibendum, ligula velit eleifend augue, vitae vestibulum lacus mauris ac tellus. Duis sit amet convallis urna. Kuiskue euismod velit eu metus volutpat alikuam. Anean auctor nunc vitae odio imperdiet commodo. Nullam diam nulla, bibendum i lorem vitae, blandit ultricies metus. Maecenas pulvinar risus vitae egestas laoreet. Sed ultrices urna kuis ek molestie tempus. Maecenas sedi orci kuam. Nulla maksimus elit id mauris ultrices gravida. Sed ultrices urna kuis ek molestie tempus. Maecenas sedi orci kuam. Nulla maksimus elit id mauris ultrices gravida. Sed ultrices urna kuis ek molestie tempus.",
+
+
+    "Contact_Headquarters":"sedište",
+    "Contact_Address":"adresa",
+    "Contact_Phone":"telefon",
+    "Contact_email":"e-mail",
+    "Contact_Map":"pokaži na mapi",
+
+    "Cart":"cart",
+    "Cart_Empty":"Vaša korpa je prazna",
+    "Cart_Image":"Slika",
+    "Cart_Title":"Naslov",
+    "Cart_Quantity":"Količina",
+    "Cart_Price":"Cena",
+    "Cart_Checkout":"proveriti",
+    "Cart_Total":"Ukupno",
+
+    "Shop_All":"Sve",
+    "Shop_No_Products":"Žao mi je da su proizvodi trenutno dostupni!",
+    "Shop_Check_Back":"Plaes Check Back uskoro",
+
+    "Product_No_Details":"Nema detalja o proizvodu",
+    "Product_Add_Cart":"Dodaj u kolica",
+    "Product_Back":"nazad",
+    "Product_Share":"Objavi",
+    "Product_Added":"Proizvod je uspešno dodan",
+    "Product_Accompany":"prati sa",
+    "Product_Variant_Info_Msg":"Izaberite varijantu proizvoda",
+
+
+    "Ingredients_Main_Title":"Vrtovi kažu, usporite, pogledajte oko sebe, verujte, nada.",
+    "Ingredients_Main":"Proizvodi KOOZMETIK su izrađeni od najkvalitetnijih prirodnih sastojaka iz svih krajeva svijeta po posebnim receptima i najvišim proizvodnim standardima i poštujući sve domaće i EU sertifikate. KOOZMETIK proizvodi se pakuju u sigurno, funkcionalno i jednostavno pakovanje napravljeno od 100% recikliranog papira koji štiti kvalitet proizvoda.",
+    "Ingredients_Yes_to":"Da",
+    "Ingredients_Yes_to_Data":"slatko bademovo ulje / jojoba ulje / lešnikovo ulje / grožđe ulje / kokosovo ulje / kalendula ulje / avokado ulje / ekstra deviško maslinovo ulje / kantarionsko ulje / kajsija kernel ulje / makadamija orah nut / argansko ulje / ricinusovo ulje / Shea buter / monoi de tahiti maslac / kakao maslac / aloe vera / prirodni pčelinji vosak / prirodni kolagen / vitamin A / vitamin E / hijaluronska kiselina / ekstrakt guava / ekstrakt maline / panthenol provitamin B5 / pšenični protein / prirodna tečnost svila / natrijum bikarbonat / organski zeleni čaj",
+    "Ingredients_Yes_to_Essential_oils":"esencijalna ulja",
+    "Ingredients_Yes_to_Essential_oils_Data":"lavanda / rožmarin / geranium / ilang ilang / limun / limun / limunska trasa / bergamot / palmarosa / ruža / sandalovina / grejpfrut / zaliv / čajno drvo / mint / petit zrno naranča / bosiljak / mandarina / narandžasta",
+    "Ingredients_Yes_to_natural_extracts":"prirodni ekstrakti",
+    "Ingredients_Yes_to_natural_extracts_Data":"vanilija / kokos / melona / mandarina / čokolada / jagoda / krastavac",
+    "Ingredients_No_to":"Ne da",
+    "Ingredients_No_to_Data":"paraben / lanolin / imidazolidinil urea i diazolidinil urea / tečno parafin mineralno ulje, vazelin, petrolatum, naftni / propilenglikol / natrijum lauril sulfat (SLS) / natrijum lauril eter sulfat (SLES) / trietanolamin / dimetikon / dietil-meta-toluamid deet / veštački mirisi / veštačke boje",
+    "Ingredients_Image_Data":"Stvarno prirodni proizvodi su uvijek sveži i stoga hranljivi ne samo za ljudska tela, već i za mikrobe. Da bi ovi proizvodi bili duži i da ih zaštitite od razaranja, skladištite ih na suhim, hladnim, tamnim mestima i operite ruke pre nego što ih primenite. Svi proizvodi su samo za spoljnu upotrebu. Pažljivo pročitajte spisak sastojaka i način primjene. U slučaju neželjenih reakcija zaustavite aplikaciju i konsultujte svog lekara.",
+
+
+    "Error_Blog_List":"Oprostite, nijedan blog nije trenutno dostupan!",
+    "Error_Blog_Details":"Izvinite No Blog Available Available!",
+
+    "Error_Product_Categorie":"No Product Categorie Available",
+    "Error_Product_List":"Nema proizvoda",
+
+    "Oder_Payment_on_Delivery":"Plaćanje na dostavu",
+    "Personalia_Info":"Personal'naya informatsiya",
+    "First_Name":"Prénom",
+    "Last_Name":"Nom de Famil'",
+    "Delivery_Address":"Adresse de livraison",
+    "Delivery_Street":"ruta",
+    "Delivery_City":"Vil'",
+    "Delivery_Zipcode":"pochtovyy indeks",
+    "Delivery_Floor":"zol'",
+    "Delivery_Apartment_Number":"Numéro d'appartement",
+    "Same_As_Delivery_Address_Please_Check_Checkbox":"Identique à l'adresse de livraison, veuillez cocher la case",
+    "Billing_Address":"Adresse de facturation",
+    "Billing_Name":"Prénom",
+    "Billing_Street":"ruta",
+    "Billing_City":"Vil'",
+    "Billing_Zipcode":"pochtovyy indeks",
+    "Billing_Phone_Number":"Numéro de Téléphone",
+    "Comments":"Commentaires",
+    "Button_Ok":"D'akkord",
+
+    "Allow_Paypal_Payment":true,
+    "Allow_Stripe_Payment":true,
+    "Allow_Payment_Delivery":true,
+
+    "Error_News_List":"Žao nam je, no lista nije trenutno dostupna!"
+
+}

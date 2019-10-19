@@ -8,7 +8,7 @@ import blogarticle from '@/components/blogarticle'
 import ingredients from '@/components/ingredients'
 import product from '@/components/product'
 import blogList from '@/components/blogList'
-import oderConformation from '@/components/oderConformation'
+import orderConfirmation from '@/components/orderConfirmation'
 import news from '@/components/news'
 Vue.use(Router)
 
@@ -61,9 +61,9 @@ export default new Router({
       component: blogList      
     },
     {
-      path: '/oderConformation',
-      name: 'oderConformation',
-      component: oderConformation      
+      path: '/orderConfirmation',
+      name: 'orderConfirmation',
+      component: orderConfirmation      
     },
     { path: '*', redirect: '/' }
 
