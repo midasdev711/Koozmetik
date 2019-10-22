@@ -1,7 +1,5 @@
 <template id="shop">
-
     <div>
-
         <main>
             <section class="shop">
                 <div class="container">
@@ -85,9 +83,8 @@
                  <div class="col-xs-12"></div>
                  </div>
             </section>
-          <br>
+            <br>
             <section v-if="ShowPaymentonDelivery">
-            
                 <div class="container">                      
                     <form @submit.prevent="SendUserData">
                         <fieldset>
@@ -188,33 +185,33 @@
                     <div class="col-xs-12">
                         <div class="footer__content">
                             <div class="footer__content-group">
-                                <a v-on:click="GotoPage('home')" class="footer__logo">
+                                <a v-on:click="$router.push({ name: 'home' })" class="footer__logo">
                                     <img src="/static/img/logo-square.svg" alt="Køøzmetik Logo" class="footer__logo-img">
                                 </a>
                             </div>
                             <nav class="footer__content-group">
                                 <ul class="footer__menu">
                                     <li class="footer__menu-item">
-                                        <a v-on:click="GotoPage('about')" class="footer__menu-link">{{Menu_About}}</a>
+                                        <a v-on:click="$router.push({ name: 'about' })" class="footer__menu-link">{{Menu_About}}</a>
                                     </li>
                                     <li class="footer__menu-item">
-                                        <a v-on:click="GotoPage('ingredients')" class="footer__menu-link">{{Menu_Ingredients}}</a>
+                                        <a v-on:click="$router.push({ name: 'ingredients' })" class="footer__menu-link">{{Menu_Ingredients}}</a>
                                     </li>
                                     <li class="footer__menu-item">
-                                        <a v-on:click="GotoPage('news')" class="footer__menu-link">news</a>
+                                        <a v-on:click="$router.push({ name: 'news' })" class="footer__menu-link">news</a>
                                     </li>
                                 </ul>
                             </nav>
                             <nav class="footer__content-group">
                                 <ul class="footer__menu">
                                     <li class="footer__menu-item">
-                                        <a v-on:click="GotoPage('shop')" class="footer__menu-link">{{Menu_Online_Shop}}</a>
+                                        <a v-on:click="$router.push({ name: 'shop' })" class="footer__menu-link">{{Menu_Online_Shop}}</a>
                                     </li>
                                     <li class="footer__menu-item">
-                                        <a v-on:click="GotoPage('blog')" class="footer__menu-link">{{Menu_Blog}}</a>
+                                        <a v-on:click="$router.push({ name: 'blog' })" class="footer__menu-link">{{Menu_Blog}}</a>
                                     </li>
                                     <li class="footer__menu-item">
-                                        <a v-on:click="GotoPage('contact')" class="footer__menu-link">{{Menu_Contact}}</a>
+                                        <a v-on:click="$router.push({ name: 'contact' })" class="footer__menu-link">{{Menu_Contact}}</a>
                                     </li>
                                 </ul>
                             </nav>
@@ -266,7 +263,7 @@
     import { globalStore } from '../main.js'
     import PayPal from 'vue-paypal-checkout'
     import { StripeCheckout } from 'vue-stripe'
-    import axios from 'axios';
+    import { mapActions, mapGetters } from 'vuex'
     const queryString = require('query-string');
     export default {
         components: {
@@ -274,14 +271,12 @@
             'stripe-checkout': StripeCheckout
         },
         data: () => ({
-             myStyle: 
-    {
-      label: 'checkout',
-      size:  'responsive',
-      shape: 'pill',
-      color: 'gold'
-    
-  },
+            myStyle: {
+                label: 'checkout',
+                size:  'responsive',
+                shape: 'pill',
+                color: 'gold'
+            },
             Menu_About: "",
             Menu_Ingredients: "",
             Menu_News: "news",
@@ -328,7 +323,6 @@
             Allow_Paypal_Payment:false,
             Allow_Stripe_Payment:false,
             Allow_Payment_Delivery:false,
-            
         }),
         
         mounted() {
@@ -346,7 +340,7 @@
         },
         created() {
             window.scrollTo(0, 0);
-            this.GetjsoneData()
+            this.getJsonData()
             this.$bus.$on('eventNames', dataPassed => {
                 if (sessionStorage.getItem("carts")) {
                     this.MainTotal = 0.00;
@@ -355,7 +349,6 @@
                     this.isCartEmpty = false;
                     this.cartData.filter((item) => {
                         this.MainTotal += (parseFloat(item["ProPrice"]));
-
                     })
                 } else {
                     this.isCartEmpty = true;
@@ -365,6 +358,10 @@
         },
 
         methods: {
+            ...mapActions('app', {
+                chargeStripe: "chargeStripe",
+                saveCartData: "saveCartData"
+            }),
             CartDataSave: function () {
                 var products = [];
                 if (sessionStorage.getItem("UserCart")) {
@@ -376,12 +373,8 @@
                         products.push(data);
 
                     }
-                    axios.patch(sessionStorage.getItem("UserCart") + globalStore.LangDomain, { products }, {
-                        headers: { 'Authorization': 'Bearer ' + localStorage.getItem("koozmetikToken") }
-                    }).then(result => {
-
-
-                    }, error => {
+                    this.saveCartData({ products }).then(result => {
+                    }).catch(error => {
                         const toast = this.$swal.mixin({
                             toast: true,
                             position: 'top-center',
@@ -395,15 +388,6 @@
                         console.error(error);
                     });
                 }
-            },
-            GotoPage: function (page) {
-                if (page == 'about') { this.$router.push({ path: `/about` }); }
-                else if (page == 'ingredients') { this.$router.push({ path: `/ingredients` }); }
-                else if (page == 'shop') { this.$router.push({ path: `/shop` }); }
-                else if (page == 'blog') { this.$router.push({ path: `/blogList` }); }
-                else if (page == 'contact') { this.$router.push({ path: `/contact` }); }
-                else if (page == 'news') { this.$router.push({ path: `/news` }); }
-
             },
             QtyChnage: function (data) {
                 if (data.ProQTY > 0) {
@@ -480,35 +464,15 @@
                     }
                     sessionStorage.setItem("carts", JSON.stringify(listProducts));
                     this.$bus.$emit('eventNames', 'text passed through event bus')
-
                 }
                 this.CartDataSave();
             },
-            GotoHome: function () {
-                this.$router.push({ path: `/Home` });
-            },
-            GetjsoneData: function () {
-                var json_language_file = ""
-                if (globalStore.LangDomain == "?site__domain=koozmetik.fr") {
-                    var json_language_file = "static/js/language_file/fr_.json"
-                    this.SelectedLang = "_FR";
-                }
-                else if (globalStore.LangDomain == "?site__domain=koozmetik.co") {
-                    var json_language_file = "static/js/language_file/en_.json"
-                    this.SelectedLang = "_EN";
-                }
-                else if (globalStore.LangDomain == "?site__domain=koozmetik.rs") {
-                    var json_language_file = "static/js/language_file/rs_.json"
-                    this.SelectedLang = "_RS";
-                }
-                else if (globalStore.LangDomain == "?site__domain=koozmetik.me") {
-                    var json_language_file = "static/js/language_file/me_.json"
-                    this.SelectedLang = "_ME";
-                } else {
-                    var json_language_file = "static/js/language_file/en_.json"
-                    this.SelectedLang = "_EN";
-                }
-
+            getJsonData: function () {
+                var json_language_file = "";
+                var type = globalStore.LangDomain.slice(-2);
+                type = type == "co" ? "en" : type;
+                json_language_file = "static/js/language_file/" + type + "_.json";
+                this.SelectedLang = "_" + type.toUpperCase();
                 $.getJSON(json_language_file, function (json) {
                     if (json) {
                         this.Menu_About = json.Menu_About;
@@ -554,44 +518,36 @@
                     currency: 'EUR',
                     amount: Math.round(this.MainTotal) * 100,
                     token: (data) => {
-                        debugger;
                         if (data && data.id) {
+                            var data = queryString.stringify({ amount: Math.round(this.MainTotal) * 100,currency :"eur",source : data.id });
                            
-                       axios.post("https://api.stripe.com/v1/charges",queryString.stringify({ amount: Math.round(this.MainTotal) * 100,currency :"eur",source : data.id } ), 
-                       {
-                        headers: {
-                             'Content-Type': "application/x-www-form-urlencoded",
-                             'Authorization': "Bearer "+ globalStore.StripeSecretKey  //stripe secret key
-                         }
-                    }).then(result => {
-                            debugger;
-                            const toast = this.$swal.mixin({
-                            toast: true,
-                            position: 'top-center',
-                            showConfirmButton: false,
-                            timer: 4000
-                        });
-                        toast({
-                            type: 'success',
-                            title: result.data.status
-                        })
-
-                    }, error => {
-                        debugger;
-                        const toast = this.$swal.mixin({
-                            toast: true,
-                            position: 'top-center',
-                            showConfirmButton: false,
-                            timer: 4000
-                        });
-                        toast({
-                            type: 'error',
-                            title: 'error.status ' + error.status
-                        })
-                        console.error(error);
-                    });
+                            this.chargeStripe(data).then(result => {
+                                debugger;
+                                const toast = this.$swal.mixin({
+                                    toast: true,
+                                    position: 'top-center',
+                                    showConfirmButton: false,
+                                    timer: 4000
+                                });
+                                toast({
+                                    type: 'success',
+                                    title: result.data.status
+                                })
+                            }).catch(error => {
+                                debugger;
+                                const toast = this.$swal.mixin({
+                                    toast: true,
+                                    position: 'top-center',
+                                    showConfirmButton: false,
+                                    timer: 4000
+                                });
+                                toast({
+                                    type: 'error',
+                                    title: 'error.status ' + error.status
+                                })
+                                console.error(error);
+                            });
                         }
-
                     }
                 });
             },

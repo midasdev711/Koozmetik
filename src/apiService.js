@@ -9,9 +9,6 @@ export default class APIService {
     return axios.get(url, {})
     .then(response => {
       return response.data;
-    })
-    .catch(e => {
-      return e;
     });
   }
   
@@ -27,12 +24,20 @@ export default class APIService {
       })
       .then(response => {
         return response.data;
-      })
-      .catch(e => {
-        if (e.response.status == 401) {
-          // Handle unauthorized error
+      });
+  }
+
+  patch(sub_url, content, headers = {}) {
+    // let token = localStorage.getItem("koozmetikToken");
+
+    let url = `${API_URL}` + sub_url;
+    return axios.patch(url, content, {
+        headers: {
+          ...headers,
         }
-        return e;
+      })
+      .then(response => {
+        return response.data;
       });
   }
 
@@ -47,12 +52,28 @@ export default class APIService {
       })
       .then(response => {
         return response.data;
-      })
-      .catch(e => {
-        if (e.response.status == 401) {
-          // Handle unauthorized error
+      });
+  }
+
+  customPost(url, content, headers = {}) {
+    return axios.post(url, content, {
+        headers: {
+          ...headers,
         }
-        return e;
+      })
+      .then(response => {
+        return response.data;
+      });
+  }
+
+  customGet(url, headers = {}) {
+    return axios.get(url, {
+        headers: {
+          ...headers,
+        }
+      })
+      .then(response => {
+        return response.data;
       });
   }
 
@@ -68,12 +89,6 @@ export default class APIService {
       })
       .then(response => {
         return response.data;
-      })
-      .catch(e => {
-        if (e.response.status == 401) {
-          // Handle unauthorized error
-        }
-        return e;
       });
   }
 };

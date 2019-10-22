@@ -118,7 +118,7 @@
                     </div>
                     <div class="container-fluid hero__actions-wrapper hero__actions-wrapper--full">
                         <div class="hero__actions">
-                            <div class="back" v-on:click="GotoBack()">
+                            <div class="back" v-on:click="$router.go(-1)">
                                 <img src="/static/img/back-arrow.svg" alt="Back arrow icon" class="back__icon">
                                 <p class="paragraph--big u-font-accent u-weight-bld">{{Product_Back}}</p>
                             </div>
@@ -169,33 +169,33 @@
                     <div class="col-xs-12">
                         <div class="footer__content">
                             <div class="footer__content-group">
-                                <a v-on:click="GotoPage('home')" class="footer__logo">
+                                <a v-on:click="$router.push({ name: 'home' })" class="footer__logo">
                                     <img src="/static/img/logo-square.svg" alt="Køøzmetik Logo" class="footer__logo-img">
                                 </a>
                             </div>
                             <nav class="footer__content-group">
                                 <ul class="footer__menu">
                                     <li class="footer__menu-item">
-                                        <a v-on:click="GotoPage('about')" class="footer__menu-link">{{Menu_About}}</a>
+                                        <a v-on:click="$router.push({ name: 'about' })" class="footer__menu-link">{{Menu_About}}</a>
                                     </li>
                                     <li class="footer__menu-item">
-                                        <a v-on:click="GotoPage('ingredients')" class="footer__menu-link">{{Menu_Ingredients}}</a>
+                                        <a v-on:click="$router.push({ name: 'ingredients' })" class="footer__menu-link">{{Menu_Ingredients}}</a>
                                     </li>
                                     <li class="footer__menu-item">
-                                        <a v-on:click="GotoPage('news')" class="footer__menu-link">news</a>
+                                        <a v-on:click="$router.push({ name: 'news' })" class="footer__menu-link">news</a>
                                     </li>
                                 </ul>
                             </nav>
                             <nav class="footer__content-group">
                                 <ul class="footer__menu">
                                     <li class="footer__menu-item">
-                                        <a v-on:click="GotoPage('shop')" class="footer__menu-link">{{Menu_Online_Shop}}</a>
+                                        <a v-on:click="$router.push({ name: 'shop' })" class="footer__menu-link">{{Menu_Online_Shop}}</a>
                                     </li>
                                     <li class="footer__menu-item">
-                                        <a v-on:click="GotoPage('blog')" class="footer__menu-link">{{Menu_Blog}}</a>
+                                        <a v-on:click="$router.push({ name: 'blog' })" class="footer__menu-link">{{Menu_Blog}}</a>
                                     </li>
                                     <li class="footer__menu-item">
-                                        <a v-on:click="GotoPage('contact')" class="footer__menu-link">{{Menu_Contact}}</a>
+                                        <a v-on:click="$router.push({ name: 'contact' })" class="footer__menu-link">{{Menu_Contact}}</a>
                                     </li>
                                 </ul>
                             </nav>
@@ -249,9 +249,7 @@
     import Loading from 'vue-loading-overlay';
 
     import 'vue-loading-overlay/dist/vue-loading.css';
-
-    import axios from 'axios';
-
+    import { mapActions, mapGetters } from 'vuex'
     export default ({
         data: () => ({
             Menu_About: "",
@@ -285,14 +283,13 @@
             RelatedProducts:[],
             Error_Product_List:"",
             SelectedLang: "_EN",
-
         }),
         components: {
             Loading
         },
         created() {
-            this.GetjsoneData();
-             window.scrollTo(0, 0);
+            this.getJsonData();
+            window.scrollTo(0, 0);
             if (!localStorage.getItem("koozmetikToken")) {
                 this.CheckUserToken();
             }
@@ -302,7 +299,6 @@
                     this.GetProductDetails(this.name);
                 }
             }
-
         },
         watch: {
             '$route': function (from, to) {			
@@ -313,104 +309,91 @@
             }
         },
         methods: {
+            ...mapActions("auth", {
+                createNewUser: "createNewUser",
+            }),
+            ...mapActions('app', {
+                getNewsList: "getNewsList",
+                getProducts: "getProducts",
+                getRelatedProductCategory: "getRelatedProductCategory",
+                getStaticFiles: "getStaticFiles"
+            }),
             CheckUserToken: function () {
-                var self = this;
-                let data = {
-                    username: "",
-                    password: "",
-                    grant_type: "password",
-                    client_id: globalStore.ClientId,
-                    client_secret: globalStore.ClientSecret,
-                };
                 if (!localStorage.getItem("koozmetikToken")) {
-                    axios({
-                        method: 'post',
-                        url: '/users/new/',
-                        data: $.param(data),
-                        headers: {
-                            "Content-Type": "application/x-www-form-urlencoded",
-                            'Accept': 'application/json'
-                        }
-                    }).then(function (response) {
-                        if (response.status == 200 && response.data.access_token) {
-                            localStorage.setItem("koozmetikToken", response.data.access_token);
-                            self.name = self.$route.params.id;
-                            if (self.name) {
-                                self.GetProductDetails(self.name);
+                    const data = new FormData();
+                    data.append("username", "");
+                    data.append("password", "");
+                    data.append("grant_type", "password");
+                    data.append("client_id", globalStore.ClientId);
+                    data.append("client_secret", globalStore.ClientSecret);
+                    this.createNewUser(data).then((response) => {
+                        if (response.access_token) {
+                            localStorage.setItem("koozmetikToken", response.access_token);
+                            this.name = this.$route.params.id;
+                            if (this.name) {
+                                this.GetProductDetails(self.name);
                             }
-                            self.CheckUserCart();
+                            this.CheckUserCart();
                         }
                     }).catch(function (error) {
                         console.log("Post Error : " + error);
                     });
                 }
-
             },
-            GotoPage: function (page) {
-                if (page == 'about') { this.$router.push({ path: `/about` }); }
-                else if (page == 'ingredients') { this.$router.push({ path: `/ingredients` }); }
-                else if (page == 'shop') { this.$router.push({ path: `/shop` }); }
-                else if (page == 'blog') { this.$router.push({ path: `/blogList` }); }
-                else if (page == 'contact') { this.$router.push({ path: `/contact` }); }
-                else if (page == 'home') { this.$router.push({ path: `/Home` }); }
-                else if (page == 'news') { this.$router.push({ path: `/news` }); }
-
-            },
-             AddProduct: function (ProductDetails) {            
+            AddProduct: function (ProductDetails) {            
                 if(this.variant.pk){
-                      if (ProductDetails) {
-                    var tempProQTY = 1;
-                    const toast = this.$swal.mixin({
-                        toast: true,
-                        position: 'top-end',
-                        showConfirmButton: false,
-                        timer: 2000
-                    });
-                    toast({
-                        type: 'success',
-                        title: this.Product_Added
-                    })
-                    var listProducts = [];
-                    if(this.variant.price_override){
-                        var price=this.variant.price_override
-                    }else{
-                             var price=ProductDetails.price
-                    }
-                    var Product = {
-                        ProImg: ProductDetails.image_url,
-                        ProQTY: tempProQTY,
-                        ProTitle: ProductDetails.name,
-                        ProShortname: ProductDetails.short_name,
-                        ProPrice:price * tempProQTY,
-                        ProUnitPrice: price,
-                        ProSlug: ProductDetails.slug,
-                        ProId: ProductDetails.url,
-                        Provariant :this.variant
+                    if (ProductDetails) {
+                        var tempProQTY = 1;
+                        const toast = this.$swal.mixin({
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 2000
+                        });
+                        toast({
+                            type: 'success',
+                            title: this.Product_Added
+                        });
 
-                    }
-                    if (sessionStorage.getItem("carts")) {
-                        listProducts = JSON.parse(sessionStorage.getItem("carts"));
+                        var listProducts = [];
 
-                        for (var i = 0; i < listProducts.length; i++) {
-                            if (listProducts[i].Provariant.pk == Product["Provariant"].pk) {
-                                tempProQTY = Number(listProducts[i].ProQTY) + 1
-                                listProducts[i].ProQTY = tempProQTY
-                                listProducts[i].ProPrice = Product["ProPrice"] * tempProQTY
-                                this.isExist = true;
+                        var price = this.variant.price_override ? this.variant.price_override : ProductDetails.price;
+                        
+                        var Product = {
+                            ProImg: ProductDetails.image_url,
+                            ProQTY: tempProQTY,
+                            ProTitle: ProductDetails.name,
+                            ProShortname: ProductDetails.short_name,
+                            ProPrice:price * tempProQTY,
+                            ProUnitPrice: price,
+                            ProSlug: ProductDetails.slug,
+                            ProId: ProductDetails.url,
+                            Provariant :this.variant
+
+                        }
+                        if (sessionStorage.getItem("carts")) {
+                            listProducts = JSON.parse(sessionStorage.getItem("carts"));
+
+                            for (var i = 0; i < listProducts.length; i++) {
+                                if (listProducts[i].Provariant.pk == Product["Provariant"].pk) {
+                                    tempProQTY = Number(listProducts[i].ProQTY) + 1
+                                    listProducts[i].ProQTY = tempProQTY
+                                    listProducts[i].ProPrice = Product["ProPrice"] * tempProQTY
+                                    this.isExist = true;
+                                }
                             }
+                            if (!this.isExist) {
+                                listProducts.push(Product);
+                            }
+                            sessionStorage.setItem("carts", JSON.stringify(listProducts));
+                            this.$bus.$emit('eventNames', 'text passed through event bus')
                         }
-                        if (this.isExist == false) {
+                        else {
                             listProducts.push(Product);
+                            sessionStorage.setItem("carts", JSON.stringify(listProducts));
+                            this.$bus.$emit('eventNames', 'text passed through event bus')
                         }
-                        sessionStorage.setItem("carts", JSON.stringify(listProducts));
-                        this.$bus.$emit('eventNames', 'text passed through event bus')
                     }
-                    else {
-                        listProducts.push(Product);
-                        sessionStorage.setItem("carts", JSON.stringify(listProducts));
-                        this.$bus.$emit('eventNames', 'text passed through event bus')
-                    }
-                }
                 }else{
                     const toast = this.$swal.mixin({
                         toast: true,
@@ -423,24 +406,15 @@
                         title:  this.Product_Variant_Info_Msg
                     })
                 }
-               var vars= this.variant;
+                var vars= this.variant;
                 this.isExist = false;
-         
-            },
-            GotoHome: function () {
-                this.$router.push({ path: `/Home` });
-            },
-            GotoBack: function () {
-                this.$router.go(-1)
             },
             GetProductDetails: function (Proname) {
-                axios.get("products/" + Proname + "/" + globalStore.LangDomain, {
-                    headers: { 'Authorization': 'Bearer ' + localStorage.getItem("koozmetikToken") }
-                }).then(result => {
-                    if (result.data) {
-                        this.productsDetails = result.data;
+                var params = Proname + "/" + globalStore.LangDomain;
+                this.getProducts(params).then(result => {
+                    if (result) {
+                        this.productsDetails = result;
                         this.GetRelatedProductBasedonCatagory(this.productsDetails.category.url)
-                        
                     } else {
                         const toast = this.$swal.mixin({
                             toast: true,
@@ -451,9 +425,9 @@
                         toast({
                             type: 'error',
                             title: this.Product_No_Details
-                        })
+                        });
                     }
-                }, error => {
+                }).catch(error => {
                     const toast = this.$swal.mixin({
                         toast: true,
                         position: 'top-center',
@@ -463,18 +437,15 @@
                     toast({
                         type: 'error',
                         title: 'error.status ' + error.status
-                    })
+                    });
                     console.error(error);
                 });
             },
-            GetRelatedProductBasedonCatagory: function (catagoryURL) {                            
-                axios.get(catagoryURL+ globalStore.LangDomain, {
-                    headers: { 'Authorization': 'Bearer ' + localStorage.getItem("koozmetikToken") }
-                }).then(result => {
-                    if (result.data.products.length >0) {
-                        this.RelatedProducts = result.data.products;
-                        
-                        
+            GetRelatedProductBasedonCatagory: function (catagoryURL) {
+                var params = catagoryURL+ globalStore.LangDomain;
+                this.getRelatedProductCategory(params).then(result => {
+                    if (result.products.length >0) {
+                        this.RelatedProducts = result.products;
                     } else {
                         const toast = this.$swal.mixin({
                             toast: true,
@@ -487,7 +458,7 @@
                             title: this.Error_Product_List
                         })
                     }
-                }, error => {
+                }).catch(error => {
                     const toast = this.$swal.mixin({
                         toast: true,
                         position: 'top-center',
@@ -496,41 +467,24 @@
                     });
                     toast({
                         type: 'error',
-                        title: 'error.status ' + error.status
+                        title: 'error.status ' + error
                     })
-                    console.error(error);
                 });
             },
-             ProductDetails: function (pro) {
+            ProductDetails: function (pro) {
                 if (pro.url) {
                     var proid = pro.url.match(/\d+/g).map(Number);
                     var pronam = pro.slug
                     this.$router.push({ path: `/product/${proid}/${pronam}` })
                 }
             },
-            GetjsoneData: function () {
+            getJsonData: function () {
                 var json_language_file = "";
-                if (globalStore.LangDomain == "?site__domain=koozmetik.fr") {
-                    var json_language_file = "/static/js/language_file/fr_.json"
-                      this.SelectedLang = "_FR";
-                }
-                else if (globalStore.LangDomain == "?site__domain=koozmetik.co") {
-                    var json_language_file = "/static/js/language_file/en_.json"
-                    this.SelectedLang = "_EN";
-                }
-                else if (globalStore.LangDomain == "?site__domain=koozmetik.rs") {
-                    var json_language_file = "/static/js/language_file/rs_.json"
-                      this.SelectedLang = "_RS";
-                }
-                else if (globalStore.LangDomain == "?site__domain=koozmetik.me") {
-                    var json_language_file = "/static/js/language_file/me_.json"
-                     this.SelectedLang = "_ME";
-                } else {
-                    var json_language_file = "/static/js/language_file/en_.json"
-                    this.SelectedLang = "_EN";
-                }
-
-                $.getJSON(json_language_file, function (json) {
+                var type = globalStore.LangDomain.slice(-2);
+                type = type == "co" ? "en" : type;
+                json_language_file = "/static/js/language_file/" + type + "_.json";
+                this.SelectedLang = "_" + type.toUpperCase();
+                this.getStaticFiles(json_language_file).then((json) => {
                     if (json) {
                         this.Menu_About = json.Menu_About;
                         this.Menu_Ingredients = json.Menu_Ingredients;
@@ -546,9 +500,9 @@
                         this.Product_Accompany = json.Product_Accompany;
                         this.Shop_No_Products = json.Shop_No_Products;
                         this.Product_Variant_Info_Msg=json.Product_Variant_Info_Msg;
-                         this.Error_Product_List=json.Error_Product_List;
+                        this.Error_Product_List=json.Error_Product_List;
                     }
-                }.bind(this));
+                });
             }
         },
         mounted() {
@@ -562,8 +516,6 @@
             a.setAttribute('src', '/static/js/app-dist.js')
 
             document.head.appendChild(a)
-
         }
-
     })
 </script>

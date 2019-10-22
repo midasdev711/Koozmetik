@@ -1,8 +1,6 @@
 <template id="contact">
-
 <div>  
- 
-  <main>
+    <main>
         <section class="hero hero--bg hero--content" style="background-image: url('static/img/banner-headquarters.jpg');">
             <div class="banner banner--inner banner--content">
                 <div class="banner__content">
@@ -98,160 +96,124 @@
             </div>
         </section>
     </main>
-
-
-   <footer class="footer">
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="footer__content">
+                        <div class="footer__content-group">
+                            <a v-on:click="$router.push({ name: `home` })" class="footer__logo">
+                                <img src="/static/img/logo-square.svg" alt="Køøzmetik Logo" class="footer__logo-img">
+                            </a>
+                        </div>
+                        <nav class="footer__content-group">
+                            <ul class="footer__menu">
+                                <li class="footer__menu-item">
+                                    <a v-on:click="$router.push({ name: `about` })" class="footer__menu-link">{{Menu_About}}</a>
+                                </li>
+                                <li class="footer__menu-item">
+                                    <a v-on:click="$router.push({ name: `ingredients` })" class="footer__menu-link">{{Menu_Ingredients}}</a>
+                                </li>
+                                <li class="footer__menu-item">
+                                    <a v-on:click="$router.push({ name: `news` })" class="footer__menu-link">news</a>
+                                </li>
+                            </ul>
+                        </nav>
+                        <nav class="footer__content-group">
+                            <ul class="footer__menu">
+                                <li class="footer__menu-item">
+                                    <a v-on:click="$router.push({ name: `shop` })" class="footer__menu-link">{{Menu_Online_Shop}}</a>
+                                </li>
+                                <li class="footer__menu-item">
+                                    <a v-on:click="$router.push({ name: `blog` })" class="footer__menu-link">{{Menu_Blog}}</a>
+                                </li>
+                                <li class="footer__menu-item">
+                                    <a v-on:click="$router.push({ name: `contact` })" class="footer__menu-link">{{Menu_Contact}}</a>
+                                </li>
+                            </ul>
+                        </nav>
+                        <nav class="footer__content-group footer__content-group--center">
+                            <ul class="socialbar socialbar--small socialbar--white">
+                                <li class="socialbar__item">
+                                    <a href="javascript:" class="socialbar__link">
+                                        <i class="fab fa-facebook-f socialbar__icon"></i>
+                                    </a>
+                                </li>
+                                <li class="socialbar__item">
+                                    <a href="javascript:" class="socialbar__link">
+                                        <i class="fab fa-instagram socialbar__icon"></i>
+                                    </a>
+                                </li>
+                                <li class="socialbar__item">
+                                    <a href="javascript:" class="socialbar__link">
+                                        <i class="fab fa-pinterest-p socialbar__icon"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="subfooter">
             <div class="container">
                 <div class="row">
-                    <div class="col-xs-12">
-                        <div class="footer__content">
-                            <div class="footer__content-group">
-                                <a v-on:click="GotoPage('home')" class="footer__logo">
-                                    <img src="/static/img/logo-square.svg" alt="Køøzmetik Logo" class="footer__logo-img">
-                                </a>
-                            </div>
-                            <nav class="footer__content-group">
-                                <ul class="footer__menu">
-                                    <li class="footer__menu-item">
-                                        <a v-on:click="GotoPage('about')" class="footer__menu-link">{{Menu_About}}</a>
-                                    </li>
-                                    <li class="footer__menu-item">
-                                        <a v-on:click="GotoPage('ingredients')" class="footer__menu-link">{{Menu_Ingredients}}</a>
-                                    </li>
-                                    <li class="footer__menu-item">
-                                        <a v-on:click="GotoPage('news')" class="footer__menu-link">news</a>
-                                    </li>
-                                </ul>
-                            </nav>
-                            <nav class="footer__content-group">
-                                <ul class="footer__menu">
-                                    <li class="footer__menu-item">
-                                        <a v-on:click="GotoPage('shop')" class="footer__menu-link">{{Menu_Online_Shop}}</a>
-                                    </li>
-                                    <li class="footer__menu-item">
-                                        <a v-on:click="GotoPage('blog')" class="footer__menu-link">{{Menu_Blog}}</a>
-                                    </li>
-                                    <li class="footer__menu-item">
-                                        <a v-on:click="GotoPage('contact')" class="footer__menu-link">{{Menu_Contact}}</a>
-                                    </li>
-                                </ul>
-                            </nav>
-                            <nav class="footer__content-group footer__content-group--center">
-                                <ul class="socialbar socialbar--small socialbar--white">
-                                    <li class="socialbar__item">
-                                        <a href="javascript:" class="socialbar__link">
-                                            <i class="fab fa-facebook-f socialbar__icon"></i>
-                                        </a>
-                                    </li>
-                                    <li class="socialbar__item">
-                                        <a href="javascript:" class="socialbar__link">
-                                            <i class="fab fa-instagram socialbar__icon"></i>
-                                        </a>
-                                    </li>
-                                    <li class="socialbar__item">
-                                        <a href="javascript:" class="socialbar__link">
-                                            <i class="fab fa-pinterest-p socialbar__icon"></i>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </nav>
-                        </div>
+                    <div class="col-xs-12 subfooter__content">
+                        <nav class="subfooter__nav">
+                            <p class="paragraph--small u-color-gray">
+                                <a href="javascript:">Privacy Policy</a>
+                            </p>
+                            <p class="paragraph--small u-color-gray">
+                                <a href="javascript:">Terms and Conditions</a>
+                            </p>
+                        </nav>
+                        <p class="paragraph--small u-color-gray">© 2017 Koozmetik / All rights reserved</p>
                     </div>
                 </div>
             </div>
-            <div class="subfooter">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-xs-12 subfooter__content">
-                            <nav class="subfooter__nav">
-                                <p class="paragraph--small u-color-gray">
-                                    <a href="javascript:">Privacy Policy</a>
-                                </p>
-                                <p class="paragraph--small u-color-gray">
-                                    <a href="javascript:">Terms and Conditions</a>
-                                </p>
-                            </nav>
-                            <p class="paragraph--small u-color-gray">© 2017 Koozmetik / All rights reserved</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </footer>
-
-    
+        </div>
+    </footer>
 </div>
 </template>
 
-
 <script>
- import { globalStore } from '../main.js'
+    import { globalStore } from '../main.js'
 
- export default {
-     data: () => ({  
+    export default {
+        data: () => ({  
             Menu_About: "",
             Menu_Ingredients: "",
             Menu_News: "news",
             Menu_Online_Shop: "",
             Menu_Blog: "",
             Menu_Contact: "",
-                        Contact_Headquarters:"",
-                        Contact_Address:"",
-                        Contact_Phone:"",
-                        Contact_email:"",
-                        Home_scroll_more:"",
-                        Contact_Map:"",
-                        RedirectFR: '',
+            Contact_Headquarters:"",
+            Contact_Address:"",
+            Contact_Phone:"",
+            Contact_email:"",
+            Home_scroll_more:"",
+            Contact_Map:"",
+            RedirectFR: '',
             RedirectEN: '',
             RedirectME: '',
             RedirectRS: '',
-             SelectedLang:"_EN",
-
+            SelectedLang:"_EN",
         }),
-     created() {
-          window.scrollTo(0, 0);
-              this.RedirectFR = globalStore.RedirectFR,
-                this.RedirectEN = globalStore.RedirectEN,
-                this.RedirectME = globalStore.RedirectME,
-                this.RedirectRS = globalStore.RedirectRS,
+        created() {
+            window.scrollTo(0, 0);
+            this.RedirectFR = globalStore.RedirectFR;
+            this.RedirectEN = globalStore.RedirectEN;
+            this.RedirectME = globalStore.RedirectME;
+            this.RedirectRS = globalStore.RedirectRS;
             this.GetjsoneData();
         },
-     methods: {       
-          GotoPage: function (page) {
-                if (page == 'about') { this.$router.push({ path: `/about` }); }
-                else if (page == 'ingredients') { this.$router.push({ path: `/ingredients` }); }
-                else if (page == 'shop') { this.$router.push({ path: `/shop` }); }
-                else if (page == 'blog') { this.$router.push({ path: `/blogList` }); }
-                else if (page == 'contact') { this.$router.push({ path: `/contact` }); }
-                else if (page == 'home') { this.$router.push({ path: `/Home` }); }
-                 else if (page == 'news') { this.$router.push({ path: `/news` }); }
-
-            }, 
-        GotoHome:function(){
-             this.$router.push({ path: `/Home` });
-        },
-         GetjsoneData: function () {              
-                var json_language_file=""
-               var json_language_file=""
-                 if(globalStore.LangDomain=="?site__domain=koozmetik.fr"){
-                    var json_language_file="static/js/language_file/fr_.json"
-                    this.SelectedLang="_FR";
-                }
-                else if(globalStore.LangDomain=="?site__domain=koozmetik.co"){
-                     var json_language_file="static/js/language_file/en_.json"
-                      this.SelectedLang="_EN";
-                }
-                else if(globalStore.LangDomain=="?site__domain=koozmetik.rs"){
-                     var json_language_file="static/js/language_file/rs_.json"
-                      this.SelectedLang="_RS";
-                }
-                else if(globalStore.LangDomain=="?site__domain=koozmetik.me"){
-                    var json_language_file="static/js/language_file/me_.json"
-                     this.SelectedLang="_ME";
-                }else{
-                      var json_language_file="static/js/language_file/en_.json"
-                       this.SelectedLang="_EN";
-                }
-               
+        methods: {
+            GetjsoneData: function () {              
+                var json_language_file = "";
+                var type = globalStore.LangDomain.slice(-2);
+                type = type == "co" ? "en" : type;
+                json_language_file = "static/js/language_file/" + type + "_.json";
+                this.SelectedLang = "_" + type.toUpperCase();
                 $.getJSON(json_language_file, function (json) {                   
                     if(json){     
                           this.Menu_About = json.Menu_About;
@@ -269,6 +231,6 @@
                     }                        
                 }.bind(this));
             }
-    }
+        }
  }
 </script>

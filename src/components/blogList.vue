@@ -185,22 +185,11 @@
                 });
             },
              GetjsoneData: function () {             
-                var json_language_file="";                
-                 if(globalStore.LangDomain=="?site__domain=koozmetik.fr"){
-                    var json_language_file="/static/js/language_file/fr_.json"
-                }
-                else if(globalStore.LangDomain=="?site__domain=koozmetik.co"){
-                     var json_language_file="/static/js/language_file/en_.json"
-                }
-                else if(globalStore.LangDomain=="?site__domain=koozmetik.rs"){
-                     var json_language_file="/static/js/language_file/rs_.json"
-                }
-                else if(globalStore.LangDomain=="?site__domain=koozmetik.me"){
-                    var json_language_file="/static/js/language_file/me_.json"
-                }else{
-                      var json_language_file="/static/js/language_file/en_.json"
-                }
-
+                var json_language_file = "";
+                var type = globalStore.LangDomain.slice(-2);
+                type = type == "co" ? "en" : type;
+                json_language_file = "static/js/language_file/" + type + "_.json";
+                this.SelectedLang = "_" + type.toUpperCase();
                 $.getJSON(json_language_file, function (json) {
                     if(json){ 
                          this.Menu_About = json.Menu_About;

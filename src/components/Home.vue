@@ -359,16 +359,16 @@
 
         created() {  
             window.scrollTo(0, 0);          
-            this.RedirectFR = globalStore.RedirectFR,
-            this.RedirectEN = globalStore.RedirectEN,
-            this.RedirectME = globalStore.RedirectME,
-            this.RedirectRS = globalStore.RedirectRS,
-            this.GetjsoneData();
+            this.RedirectFR = globalStore.RedirectFR;
+            this.RedirectEN = globalStore.RedirectEN;
+            this.RedirectME = globalStore.RedirectME;
+            this.RedirectRS = globalStore.RedirectRS;
+            this.getJsonData();
             if (!localStorage.getItem("koozmetikToken")) {
                 this.CheckUserToken();
             } else {
                 this.GetProductCategorieList()
-                this.GetProdictList();
+                this.GetProductList();
                 this.GetBlogDetailsList();
                 this.GetNewsDetailsList();
                 this.CheckUserCart();
@@ -398,7 +398,7 @@
                     this.createNewUser(data).then((response) => {
                         localStorage.setItem("koozmetikToken", response.access_token);
                         this.GetProductCategorieList()
-                        this.GetProdictList();
+                        this.GetProductList();
                         this.GetBlogDetailsList();
                         this.GetNewsDetailsList();
                         this.CheckUserCart();
@@ -512,7 +512,7 @@
                     })
                 });
             },
-            GetProdictList: function () {
+            GetProductList: function () {
                 var params = globalStore.LangDomain;
                 this.getProducts(params).then(result => {
                     if (result && result.results.length > 0) {
@@ -548,7 +548,7 @@
                     this.$router.push({ path: `/blogarticle/${blogid}` });
                 }
             },
-            GetjsoneData: function () {
+            getJsonData: function () {
                 var json_language_file = "";
                 var type = globalStore.LangDomain.slice(-2);
                 type = type == "co" ? "en" : type;
