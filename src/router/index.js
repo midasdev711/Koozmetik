@@ -1,73 +1,50 @@
-import Vue from 'vue'
-import Router from 'vue-router'
-import aboutUs from '@/components/aboutUs'
-import contact from '@/components/contact'
-import shop from '@/components/shop'
-import home from '@/components/home'
-import blogarticle from '@/components/blogarticle'
-import ingredients from '@/components/ingredients'
-import product from '@/components/product'
-import blogList from '@/components/blogList'
-import orderConfirmation from '@/components/orderConfirmation'
-import news from '@/components/news'
+import Vue from "vue"
+import Router from "vue-router"
+// import store from '@/store'
+import { publicRoute } from "./config"
+import NProgress from "nprogress"
+import "nprogress/nprogress.css"
+const routes = publicRoute;
+
 Vue.use(Router)
-
-export default new Router({
-  mode: 'history',
-  routes: [
-    {
-      path: '/news',
-      name: 'news',
-      component: news
-    },
-    {
-      path: '/about',
-      name: 'AboutUs',
-      component: aboutUs
-    },
-    {
-      path: '/contact',
-      name: 'contact',
-      component: contact
-    },
-    {
-      path: '/shop',
-      name: 'shop',
-      component: shop
-    },
-    {
-      path: '/',
-      name: 'home',
-      component: home
-    },
-    {
-      path: '/blogarticle/:id',
-      name: 'blogarticle',
-      component: blogarticle
-    },
-    {
-      path: '/ingredients',
-      name: 'ingredients',
-      component: ingredients
-    },
-    {
-      path: '/product/:id/:name',
-      name: 'product',
-      component: product      
-    },
-    {
-      path: '/blogList',
-      name: 'blogList',
-      component: blogList      
-    },
-    {
-      path: '/orderConfirmation',
-      name: 'orderConfirmation',
-      component: orderConfirmation      
-    },
-    { path: '*', redirect: '/' }
-
-    
-  ],
-
+const router = new Router({
+  mode: "history",
+  linkActiveClass: "active",
+  routes: routes
 })
+// router gards
+router.beforeEach((to, from, next) => {
+  NProgress.start()
+  //auth route is authenticated
+  if (to.matched.some((m) => m.meta.requiresAuth)) {
+
+    // console.log(store.getters['auth/getIsLogined']);
+
+    var token = localStorage.getItem('token');
+    
+    // if (!store.getters['auth/getIsLogined'] && to.name !== 'Login') {
+    //   next({ name: 'Auth' })
+    // }
+
+    // if (!token && to.name !== 'Login') {
+      // next({ name: 'Auth' })
+    // }
+
+    // if (needSubscription() && to.name !== 'Subscription') {
+    //   next({ name: 'Subscription' })
+    // }
+  }
+
+  // if (to.path === '/logout') {
+  //   store.dispatch('entities/auth/logout')
+  //   next({ name: 'Login' })
+  // }
+
+  next()
+})
+
+router.afterEach(() => {
+  NProgress.done()
+})
+
+export default router

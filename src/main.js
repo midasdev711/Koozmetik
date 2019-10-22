@@ -2,7 +2,8 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import App from './App'
-import router from './router'
+import router from "./router/"
+import store from "./store/"
 import VueResource from 'vue-resource';
 import Slick from 'vue-slick';
 window.$ = require('jquery')
@@ -26,11 +27,11 @@ Vue.use(require('vue-moment'));
 
 Vue.use(VueStripeCheckout, options);
 
-Vue.use(VueAxios, axios)
+// Vue.use(VueAxios, axios)
 Vue.use(VueEventBus)
 Vue.use(VueSweetalert2);
 Vue.use(Slick);
-Vue.axios.defaults.baseURL = `https://koozmetik.beauty-insights.com/api/`;
+// Vue.axios.defaults.baseURL = `https://koozmetik.beauty-insights.com/api/`;
 const Token= localStorage.getItem("koozmetikToken");
 if(Token){
   // Vue.axios.defaults.headers={
@@ -53,7 +54,8 @@ export const globalStore = new Vue({
 })
 /* eslint-disable no-new */
 new Vue({
-  router,               // Add this line
+  router,
+  store,
   render: h => h(App)
 }).$mount('#app')
 

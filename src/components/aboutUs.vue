@@ -119,33 +119,33 @@
                     <div class="col-xs-12">
                         <div class="footer__content">
                             <div class="footer__content-group">
-                                <a v-on:click="GotoPage('home')" class="footer__logo">
+                                <a v-on:click="$router.push({ name: 'home' })" class="footer__logo">
                                     <img src="/static/img/logo-square.svg" alt="Køøzmetik Logo" class="footer__logo-img">
                                 </a>
                             </div>
                             <nav class="footer__content-group">
                                 <ul class="footer__menu">
                                     <li class="footer__menu-item">
-                                        <a v-on:click="GotoPage('about')" class="footer__menu-link">{{Menu_About}}</a>
+                                        <a v-on:click="$router.push({ name: 'about' })" class="footer__menu-link">{{Menu_About}}</a>
                                     </li>
                                     <li class="footer__menu-item">
-                                        <a v-on:click="GotoPage('ingredients')" class="footer__menu-link">{{Menu_Ingredients}}</a>
+                                        <a v-on:click="$router.push({ name: 'ingredients' })" class="footer__menu-link">{{Menu_Ingredients}}</a>
                                     </li>
                                     <li class="footer__menu-item">
-                                        <a v-on:click="GotoPage('news')" class="footer__menu-link">news</a>
+                                        <a v-on:click="$router.push({ name: 'news' })" class="footer__menu-link">news</a>
                                     </li>
                                 </ul>
                             </nav>
                             <nav class="footer__content-group">
                                 <ul class="footer__menu">
                                     <li class="footer__menu-item">
-                                        <a v-on:click="GotoPage('shop')" class="footer__menu-link">{{Menu_Online_Shop}}</a>
+                                        <a v-on:click="$router.push({ name: 'shop' })" class="footer__menu-link">{{Menu_Online_Shop}}</a>
                                     </li>
                                     <li class="footer__menu-item">
-                                        <a v-on:click="GotoPage('blog')" class="footer__menu-link">{{Menu_Blog}}</a>
+                                        <a v-on:click="$router.push({ name: 'blog' })" class="footer__menu-link">{{Menu_Blog}}</a>
                                     </li>
                                     <li class="footer__menu-item">
-                                        <a v-on:click="GotoPage('contact')" class="footer__menu-link">{{Menu_Contact}}</a>
+                                        <a v-on:click="$router.push({ name: 'contact' })" class="footer__menu-link">{{Menu_Contact}}</a>
                                     </li>
                                 </ul>
                             </nav>
@@ -195,6 +195,7 @@
 </template>
 
 <script>
+    import { mapActions, mapGetters } from 'vuex'
     import { globalStore } from '../main.js'
     export default {
         data: () => ({
@@ -224,50 +225,24 @@
             SelectedLang: "_EN",
         }),
         created() {
-             window.scrollTo(0, 0);
-            this.RedirectFR = globalStore.RedirectFR,
-                this.RedirectEN = globalStore.RedirectEN,
-                this.RedirectME = globalStore.RedirectME,
-                this.RedirectRS = globalStore.RedirectRS,
-                this.GetjsoneData();
+            window.scrollTo(0, 0);
+            this.RedirectFR = globalStore.RedirectFR;
+            this.RedirectEN = globalStore.RedirectEN;
+            this.RedirectME = globalStore.RedirectME;
+            this.RedirectRS = globalStore.RedirectRS;
+            this.GetjsonData();
         },
         methods: {
-            GotoPage: function (page) {
-                if (page == 'about') { this.$router.push({ path: `/about` }); }
-                else if (page == 'ingredients') { this.$router.push({ path: `/ingredients` }); }
-                else if (page == 'shop') { this.$router.push({ path: `/shop` }); }
-                else if (page == 'blog') { this.$router.push({ path: `/blogList` }); }
-                else if (page == 'contact') { this.$router.push({ path: `/contact` }); }
-                else if (page == 'home') { this.$router.push({ path: `/Home` }); }
-                else if (page == 'news') { this.$router.push({ path: `/news` }); }
-
-            },
-            GotoHome: function () {
-                this.$router.push({ path: `/Home` });
-            },
-            GetjsoneData: function () {
-                var json_language_file = ""
-                if (globalStore.LangDomain == "?site__domain=koozmetik.fr") {
-                    var json_language_file = "static/js/language_file/fr_.json"
-                    this.SelectedLang = "_FR";
-                }
-                else if (globalStore.LangDomain == "?site__domain=koozmetik.co") {
-                    var json_language_file = "static/js/language_file/en_.json"
-                    this.SelectedLang = "_EN";
-                }
-                else if (globalStore.LangDomain == "?site__domain=koozmetik.rs") {
-                    var json_language_file = "static/js/language_file/rs_.json"
-                    this.SelectedLang = "_RS";
-                }
-                else if (globalStore.LangDomain == "?site__domain=koozmetik.me") {
-                    var json_language_file = "static/js/language_file/me_.json"
-                    this.SelectedLang = "_ME";
-                } else {
-                    var json_language_file = "static/js/language_file/en_.json"
-                    this.SelectedLang = "_EN";
-                }
-
-                $.getJSON(json_language_file, function (json) {
+            ...mapActions('app', {
+                getStaticFiles: "getStaticFiles"
+            }),
+            GetjsonData: function () {
+                var json_language_file = "";
+                var type = globalStore.LangDomain.slice(-2);
+                type = type == "co" ? "en" : type;
+                json_language_file = "static/js/language_file/" + type + "_.json";
+                this.SelectedLang = "_" + type.toUpperCase();
+                this.getStaticFiles(json_language_file).then((json) => {
                     if (json) {
                         this.Menu_About = json.Menu_About;
                         this.Menu_Ingredients = json.Menu_Ingredients;
@@ -276,21 +251,20 @@
                         this.Menu_Blog = json.Menu_Blog;
                         this.Menu_Contact = json.Menu_Contact;
                         this.About_Main_Title = json.About_Main_Title;
-                        this.About_Main_Title2 = json.About_Main_Title2,
-                            this.About_Hippocrates = json.About_Hippocrates,
-                            this.About_Minimalism = json.About_Minimalism,
-                            this.About_Minimalism_Text = json.About_Minimalism_Text,
-                            this.About_Holistic_Approach = json.About_Holistic_Approach,
-                            this.About_Holistic_Approach_Text = json.About_Holistic_Approach_Text,
-                            this.About_Essence = json.About_Essence,
-                            this.About_Essence_Text = json.About_Essence_Text,
-                            this.Home_about_us_Text = json.Home_about_us_Text,
-                            this.About_Last_Text = json.About_Last_Text,
-                            this.About_Last_Text1 = json.About_Last_Text1,
-                            this.Home_about_us = json.Home_about_us
-
+                        this.About_Main_Title2 = json.About_Main_Title2;
+                        this.About_Hippocrates = json.About_Hippocrates;
+                        this.About_Minimalism = json.About_Minimalism;
+                        this.About_Minimalism_Text = json.About_Minimalism_Text;
+                        this.About_Holistic_Approach = json.About_Holistic_Approach;
+                        this.About_Holistic_Approach_Text = json.About_Holistic_Approach_Text;
+                        this.About_Essence = json.About_Essence;
+                        this.About_Essence_Text = json.About_Essence_Text;
+                        this.Home_about_us_Text = json.Home_about_us_Text;
+                        this.About_Last_Text = json.About_Last_Text;
+                        this.About_Last_Text1 = json.About_Last_Text1;
+                        this.Home_about_us = json.Home_about_us;
                     }
-                }.bind(this));
+                });
             }
         }
     }

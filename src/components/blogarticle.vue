@@ -2,16 +2,16 @@
     <div> 
     <main  v-if="!blogDetails.title">
          <div class="row" >          
-                     <div class="col-xs-3">                                            
-                        </div>             
-                        <div class="col-xs-7">
-                                   <h3 class="u-color-gray">{{Error_Blog_Details}}</h3>                                              
-                        </div>
-                         <div class="col-xs-2">                                                
-                        </div>
-                    </div>
+            <div class="col-xs-3">                                            
+                </div>             
+                <div class="col-xs-7">
+                    <h3 class="u-color-gray">{{Error_Blog_Details}}</h3>                                              
+                </div>
+                 <div class="col-xs-2">                                                
+                </div>
+            </div>
         </main>
-          <main>
+        <main>
             <section class="article" >
                 <div class="article__social"  v-if="blogDetails.title">
                     <p class="paragraph--big u-font-accent u-weight-bld article__social-label">{{Product_Share}}</p>
@@ -181,21 +181,19 @@
         </footer>       
        
     </div>
-    </template>
-    
-       <script>
-     import {globalStore} from '../main.js'
+</template>
+<script>
+    import {globalStore} from '../main.js'
 
     import Loading from 'vue-loading-overlay';
 
     import 'vue-loading-overlay/dist/vue-loading.css';
 
-    import axios from 'axios';
+    import { mapActions, mapGetters } from 'vuex'
 
     import Slick from 'vue-slick';
 
     export default ({
-    
         components: { Slick ,  Loading},    
         data:()=> ({      
              Menu_About: "",
@@ -203,7 +201,7 @@
             Menu_News: "news",
             Menu_Online_Shop: "",
             Menu_Blog: "",
-            Menu_Contact: "",      
+            Menu_Contact: "",
                 slickOptions: {
                    dots: true, 
                      infinite: true,
@@ -216,17 +214,20 @@
                  Product_Share: "",   
         }) ,
         created() {   
-             window.scrollTo(0, 0);      
+            window.scrollTo(0, 0);      
             this.GetjsoneData()
-           
             this.name = this.$route.params.id;
             if (this.name) {
                 this.GetBlogDetails(this.name);
             }
         },
         
-        methods: {   
-             GotoPage: function (page) {
+        methods: {
+            ...mapActions('app', {
+                getBlogDetails: "getBlogDetails",
+                getStaticFiles: "getStaticFiles"
+            }),
+            GotoPage: function (page) {
                 if (page == 'about') { this.$router.push({ path: `/about` }); }
                 else if (page == 'ingredients') { this.$router.push({ path: `/ingredients` }); }
                 else if (page == 'shop') { this.$router.push({ path: `/shop` }); }
@@ -234,15 +235,13 @@
                 else if (page == 'contact') { this.$router.push({ path: `/contact` }); }
                 else if (page == 'home') { this.$router.push({ path: `/Home` }); }
                  else if (page == 'news') { this.$router.push({ path: `/news` }); }
-
             },     
-            GetBlogDetails: function (Proname) {              
-                axios.get("posts/" + Proname + globalStore.LangDomain,{
-        headers: { 'Authorization': 'Bearer '+localStorage.getItem("koozmetikToken") }
-      }).then(result => {
-                    if (result.data) {
-                        this.blogDetails = result.data;
-                        this.authorName= result.data.author.username;                         
+            GetBlogDetails: function (Proname) {       
+                var params = Proname + globalStore.LangDomain;     
+                this.getBlogDetails(params).then(result => {
+                    if (result) {
+                        this.blogDetails = result;
+                        this.authorName= result.author.username;                         
                     } else {
                         const toast = this.$swal.mixin({
                             toast: true,
@@ -255,65 +254,53 @@
                             title: this.Error_Blog_Details
                         })
                     }
-                }, error => {
-                      const toast = this.$swal.mixin({
-                            toast: true,
-                            position: 'top-center',
-                            showConfirmButton: false,
-                            timer: 4000
-                        });
-                        toast({
-                            type: 'error',
-                            title:'error.status '+error.status
-                        })
-                    console.error(error);
+                }).catch(error => {
+                    const toast = this.$swal.mixin({
+                        toast: true,
+                        position: 'top-center',
+                        showConfirmButton: false,
+                        timer: 4000
+                    });
+                    toast({
+                        type: 'error',
+                        title:'error.status '+error.status
+                    })
                 });
             },
-             GetjsoneData: function () {             
-                var json_language_file="";                
-                 if(globalStore.LangDomain=="?site__domain=koozmetik.fr"){
-                    var json_language_file="/static/js/language_file/fr_.json"
-                }
-                else if(globalStore.LangDomain=="?site__domain=koozmetik.co"){
-                     var json_language_file="/static/js/language_file/en_.json"
-                }
-                else if(globalStore.LangDomain=="?site__domain=koozmetik.rs"){
-                     var json_language_file="/static/js/language_file/rs_.json"
-                }
-                else if(globalStore.LangDomain=="?site__domain=koozmetik.me"){
-                    var json_language_file="/static/js/language_file/me_.json"
-                }else{
-                      var json_language_file="/static/js/language_file/en_.json"
-                }
-
-                $.getJSON(json_language_file, function (json) {
+            GetjsoneData: function () {             
+                var json_language_file = "";
+                var type = globalStore.LangDomain.slice(-2);
+                type = type == "co" ? "en" : type;
+                json_language_file = "../static/js/language_file/" + type + "_.json";
+                this.SelectedLang = "_" + type.toUpperCase();
+                this.getStaticFiles(json_language_file).then((json) => {
                     if(json){        
-                         this.Menu_About = json.Menu_About;
+                        this.Menu_About = json.Menu_About;
                         this.Menu_Ingredients = json.Menu_Ingredients;
                         this.Menu_News = json.Menu_News;
                         this.Menu_Online_Shop = json.Menu_Online_Shop;
                         this.Menu_Blog = json.Menu_Blog;
                         this.Menu_Contact = json.Menu_Contact;     
                         this.Product_Share = json.Product_Share;              
-                    this.Error_Blog_Details=json.Error_Blog_Details;
+                        this.Error_Blog_Details=json.Error_Blog_Details;
                     }
-                }.bind(this));
+                });
             } ,
             GotoHome:function(){
                  this.$router.push({ path: `/Home` });
             }
         },
         mounted() {
-             let b = document.createElement('script')
+            let b = document.createElement('script')
              
-        b.setAttribute('src', '/static/js/app-dist.js')
-        
-        document.head.appendChild(b)
-        let a = document.createElement('script')
+            b.setAttribute('src', '/static/js/app-dist.js')
+
+            document.head.appendChild(b)
+            let a = document.createElement('script')
               
-        a.setAttribute('src', '/static/js/app-dist.js')
-        
-        document.head.appendChild(a)
+            a.setAttribute('src', '/static/js/app-dist.js')
+
+            document.head.appendChild(a)
       }
     });
     

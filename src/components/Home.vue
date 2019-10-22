@@ -232,33 +232,33 @@
                     <div class="col-xs-12">
                         <div class="footer__content">
                             <div class="footer__content-group">
-                                <a v-on:click="GotoPage('home')" class="footer__logo">
+                                <a v-on:click="$router.push({ name: 'home' })" class="footer__logo">
                                     <img src="/static/img/logo-square.svg" alt="Køøzmetik Logo" class="footer__logo-img">
                                 </a>
                             </div>
                             <nav class="footer__content-group">
                                 <ul class="footer__menu">
                                     <li class="footer__menu-item">
-                                        <a v-on:click="GotoPage('about')" class="footer__menu-link">{{Menu_About}}</a>
+                                        <a v-on:click="$router.push({ name: 'about' })" class="footer__menu-link">{{Menu_About}}</a>
                                     </li>
                                     <li class="footer__menu-item">
-                                        <a v-on:click="GotoPage('ingredients')" class="footer__menu-link">{{Menu_Ingredients}}</a>
+                                        <a v-on:click="$router.push({ name: 'ingredients' })" class="footer__menu-link">{{Menu_Ingredients}}</a>
                                     </li>
                                     <li class="footer__menu-item">
-                                        <a v-on:click="GotoPage('news')" class="footer__menu-link">news</a>
+                                        <a v-on:click="$router.push({ name: 'ingredients' })" class="footer__menu-link">news</a>
                                     </li>
                                 </ul>
                             </nav>
                             <nav class="footer__content-group">
                                 <ul class="footer__menu">
                                     <li class="footer__menu-item">
-                                        <a v-on:click="GotoPage('shop')" class="footer__menu-link">{{Menu_Online_Shop}}</a>
+                                        <a v-on:click="$router.push({ name: 'shop' })" class="footer__menu-link">{{Menu_Online_Shop}}</a>
                                     </li>
                                     <li class="footer__menu-item">
-                                        <a v-on:click="GotoPage('blog')" class="footer__menu-link">{{Menu_Blog}}</a>
+                                        <a v-on:click="$router.push({ name: 'blog' })" class="footer__menu-link">{{Menu_Blog}}</a>
                                     </li>
                                     <li class="footer__menu-item">
-                                        <a v-on:click="GotoPage('contact')" class="footer__menu-link">{{Menu_Contact}}</a>
+                                        <a v-on:click="$router.push({ name: 'contact' })" class="footer__menu-link">{{Menu_Contact}}</a>
                                     </li>
                                 </ul>
                             </nav>
@@ -309,7 +309,7 @@
 
 <script>
     import { globalStore } from '../main.js'
-    import axios from 'axios';
+    import { mapActions, mapGetters } from 'vuex'
 
     export default {
         data: () => ({
@@ -358,12 +358,12 @@
         }),
 
         created() {  
-             window.scrollTo(0, 0);          
+            window.scrollTo(0, 0);          
             this.RedirectFR = globalStore.RedirectFR,
-                this.RedirectEN = globalStore.RedirectEN,
-                this.RedirectME = globalStore.RedirectME,
-                this.RedirectRS = globalStore.RedirectRS,
-                this.GetjsoneData();
+            this.RedirectEN = globalStore.RedirectEN,
+            this.RedirectME = globalStore.RedirectME,
+            this.RedirectRS = globalStore.RedirectRS,
+            this.GetjsoneData();
             if (!localStorage.getItem("koozmetikToken")) {
                 this.CheckUserToken();
             } else {
@@ -373,54 +373,48 @@
                 this.GetNewsDetailsList();
                 this.CheckUserCart();
             }
-
-
         },
 
         methods: {
+            ...mapActions("auth", {
+                createNewUser: "createNewUser",
+            }),
+            ...mapActions('app', {
+                getCurrentCartData: "getCurrentCartData",
+                getProductCategories: "getProductCategories",
+                getProducts: "getProducts",
+                getBlogDetailsList: "getBlogDetailsList",
+                getNewsDetailsList: "getNewsDetailsList",
+                getStaticFiles: "getStaticFiles"
+            }),
             CheckUserToken: function () {
-                var self = this;
-                let data = {
-                    username: "",
-                    password: "",
-                    grant_type: "password",
-                    client_id: globalStore.ClientId,
-                    client_secret: globalStore.ClientSecret,
-                };
                 if (!localStorage.getItem("koozmetikToken")) {
-                    axios({
-                        method: 'post',
-                        url: '/users/new/',
-                        data: $.param(data),
-                        headers: {
-                            "Content-Type": "application/x-www-form-urlencoded",
-                            'Accept': 'application/json'
-                        }
-                    }).then(function (response) {
-                        if (response.status == 200 && response.data.access_token) {
-                            localStorage.setItem("koozmetikToken", response.data.access_token);
-                            self.GetProductCategorieList()
-                            self.GetProdictList();
-                            self.GetBlogDetailsList();
-                            self.GetNewsDetailsList();
-                            self.CheckUserCart();
-                        }
+                    const data = new FormData();
+                    data.append("username", "");
+                    data.append("password", "");
+                    data.append("grant_type", "password");
+                    data.append("client_id", globalStore.ClientId);
+                    data.append("client_secret", globalStore.ClientSecret);
+                    this.createNewUser(data).then((response) => {
+                        localStorage.setItem("koozmetikToken", response.access_token);
+                        this.GetProductCategorieList()
+                        this.GetProdictList();
+                        this.GetBlogDetailsList();
+                        this.GetNewsDetailsList();
+                        this.CheckUserCart();
                     }).catch(function (error) {
                         console.log("Post Error : " + error);
                     });
                 }
-
             },
-            CheckUserCart: function () {                
-                axios.get("carts/current/" + globalStore.LangDomain, {
-                    headers: { 'Authorization': 'Bearer ' + localStorage.getItem("koozmetikToken") }
-                }).then(result => {
+            CheckUserCart: function () {
+                var params = globalStore.LangDomain;
+                this.getCurrentCartData(params).then((result) => {
                     if (result.data) {
                         sessionStorage.setItem("UserCart", result.data.url);
                         if (sessionStorage.getItem("carts") == null && result.data.products.length > 0) {
                             var listProducts = [];
                             for (let i = 0; i < result.data.products.length; i++) {
-                               
                                 var Product = {
                                     ProImg: result.data.products[i].variant.product.image_url,
                                     ProTitle: result.data.products[i].variant.product.name,
@@ -442,12 +436,12 @@
                                     }
                                 }
                                 listProducts.push(Product);
-                               sessionStorage.setItem("carts", JSON.stringify(listProducts));
-                               this.$bus.$emit('eventNames', 'text passed through event bus')
+                                sessionStorage.setItem("carts", JSON.stringify(listProducts));
+                                this.$bus.$emit('eventNames', 'text passed through event bus')
                             }
                         }
                     }
-                }, error => {
+                }).catch(function (error) {
                     const toast = this.$swal.mixin({
                         toast: true,
                         position: 'top-center',
@@ -458,18 +452,7 @@
                         type: 'error',
                         title: 'error.status ' + error.status
                     })
-                    console.error(error);
                 });
-            },
-            GotoPage: function (page) {
-                if (page == 'about') { this.$router.push({ path: `/about` }); }
-                else if (page == 'ingredients') { this.$router.push({ path: `/ingredients` }); }
-                else if (page == 'shop') { this.$router.push({ path: `/shop` }); }
-                else if (page == 'blog') { this.$router.push({ path: `/blogList` }); }
-                else if (page == 'contact') { this.$router.push({ path: `/contact` }); }
-                else if (page == 'home') { this.$router.push({ path: `/Home` }); }
-                else if (page == 'news') { this.$router.push({ path: `/news` }); }
-
             },
             ProductDetails: function (pro) {
                 if (pro.url) {
@@ -479,11 +462,10 @@
                 }
             },
             GetProductCategorieList: function () {
-                axios.get("productcategories/" + globalStore.LangDomain, {
-                    headers: { 'Authorization': 'Bearer ' + localStorage.getItem("koozmetikToken") }
-                }).then(result => {
-                    if (result.data && result.data.results.length > 0) {
-                        this.productCategorieList = result.data.results;
+                var params = globalStore.LangDomain;
+                this.getProductCategories(params).then(result => {
+                    if (result && result.results.length > 0) {
+                        this.productCategorieList = result.results;
                         if (this.productCategorieList[0] && this.productCategorieList[0].products.length > 0) {
                             this.productCategorieName = this.productCategorieList[0].name;
                             this.subproductList = this.productCategorieList[0].products;
@@ -528,51 +510,36 @@
                         type: 'error',
                         title: 'error.status ' + error.status
                     })
-                    console.error(error);
                 });
             },
             GetProdictList: function () {
-                axios.get("products/" + globalStore.LangDomain, {
-                    headers: { 'Authorization': 'Bearer ' + localStorage.getItem("koozmetikToken") }
-                }).then(result => {
-                    if (result.data && result.data.results.length > 0) {
+                var params = globalStore.LangDomain;
+                this.getProducts(params).then(result => {
+                    if (result && result.results.length > 0) {
                         this.products = [];
-                        this.products = result.data.results;
-
-                    }
-                    else {
+                        this.products = result.results;
                     }
 
-                }, error => {
-                    console.error(error);
+                }).catch(error => {
+                    return error;
                 });
             },
             GetBlogDetailsList() {
-                axios.get("posts/?ordering=-published_on&limit=3&" + globalStore.LangDomainHome, {
-                    headers: { 'Authorization': 'Bearer ' + localStorage.getItem("koozmetikToken") }
-                }).then(result => {
-                    if (result.data && result.data.results.length > 0) {
-                        this.blogList = result.data.results[0];
+                this.getBlogDetailsList(globalStore.LangDomain).then(result => {
+                    if (result && result.results.length > 0) {
+                        this.blogList = result.results[0];
                     }
-                    else {
-                    }
-
-                }, error => {
-                    console.error(error);
+                }).catch(error => {
+                    return error;
                 });
             },
             GetNewsDetailsList() {
-                axios.get("posts/?ordering=-published_on&limit=3&" + globalStore.LangDomainHome + "&categories__slug=news", {
-                    headers: { 'Authorization': 'Bearer ' + localStorage.getItem("koozmetikToken") }
-                }).then(result => {
-                    if (result.data && result.data.results.length > 0) {
-                        this.newsList = result.data.results;
+                this.getNewsDetailsList(globalStore.LangDomainHome).then(result => {
+                    if (result && result.results.length > 0) {
+                        this.newsList = result.results;
                     }
-                    else {
-                    }
-
-                }, error => {
-                    console.error(error);
+                }).catch(error => {
+                    return error;
                 });
             },
             BlogDetails: function (url) {
@@ -580,31 +547,14 @@
                     var blogid = url.match(/\d+/g).map(Number);
                     this.$router.push({ path: `/blogarticle/${blogid}` });
                 }
-
             },
             GetjsoneData: function () {
-                var json_language_file = ""
-                if (globalStore.LangDomain == "?site__domain=koozmetik.fr") {
-                    var json_language_file = "static/js/language_file/fr_.json"
-                    this.SelectedLang = "_FR";
-                }
-                else if (globalStore.LangDomain == "?site__domain=koozmetik.co") {
-                    var json_language_file = "static/js/language_file/en_.json"
-                    this.SelectedLang = "_EN";
-                }
-                else if (globalStore.LangDomain == "?site__domain=koozmetik.rs") {
-                    var json_language_file = "static/js/language_file/rs_.json"
-                    this.SelectedLang = "_RS";
-                }
-                else if (globalStore.LangDomain == "?site__domain=koozmetik.me") {
-                    var json_language_file = "static/js/language_file/me_.json";
-                    this.SelectedLang = "_ME";
-                } else {
-                    var json_language_file = "static/js/language_file/en_.json"
-                    this.SelectedLang = "_EN";
-                }
-
-                $.getJSON(json_language_file, function (json) {
+                var json_language_file = "";
+                var type = globalStore.LangDomain.slice(-2);
+                type = type == "co" ? "en" : type;
+                json_language_file = "static/js/language_file/" + type + "_.json";
+                this.SelectedLang = "_" + type.toUpperCase();
+                this.getStaticFiles(json_language_file).then((json) => {
                     if (json) {
                         this.Menu_About = json.Menu_About;
                         this.Menu_Ingredients = json.Menu_Ingredients;
@@ -613,14 +563,14 @@
                         this.Menu_Blog = json.Menu_Blog;
                         this.Menu_Contact = json.Menu_Contact;
                         this.Home_scroll_more = json.Home_scroll_more;
-                        this.Home_our_shop = json.Home_our_shop,
-                            this.Home_about_us = json.Home_about_us,
-                            this.Home_news = json.Home_news,
-                            this.Home_blog = json.Home_blog,
-                            this.Home_about_us_Text = json.Home_about_us_Text,
-                            this.Error_Product_Categorie = json.Error_Product_Categorie
+                        this.Home_our_shop = json.Home_our_shop;
+                        this.Home_about_us = json.Home_about_us;
+                        this.Home_news = json.Home_news;
+                        this.Home_blog = json.Home_blog;
+                        this.Home_about_us_Text = json.Home_about_us_Text;
+                        this.Error_Product_Categorie = json.Error_Product_Categorie;
                     }
-                }.bind(this));
+                });
             }
 
         },

@@ -1,6 +1,6 @@
 <template>
     <div id="blogList">
-              <section class="section-read">
+        <section class="section-read">
             <div class="container" v-if="blogList.length > 0">
                 <div class="row">
                     <article class="col-xs-12 col-sm-6 section-read__column" v-for="item in blogList" style="min-height: 800px">
@@ -10,25 +10,18 @@
                             <p class="paragraph--big u-font-accent u-margin-bottom-small-2">{{item.title}}</p>
                             <span v-html="item.content"></span>
                         </a>
-
                     </article>
-
                 </div>
             </div>
-           <div class="row" v-else>          
-                     <div class="col-xs-3">
-                                            
-                        </div>             
-                        <div class="col-xs-7">
-                                   <h3 class="u-color-gray">{{Error_Blog_List}}</h3>
-                                              
-                        </div>
-                         <div class="col-xs-2">
-                                                
-                        </div>
-                    </div>
+            <div class="row" v-else>          
+                <div class="col-xs-3"></div>             
+                <div class="col-xs-7">
+                    <h3 class="u-color-gray">{{Error_Blog_List}}</h3>
+                </div>
+                <div class="col-xs-2"></div>
+            </div>
         </section>
-         <footer class="footer">
+        <footer class="footer">
             <div class="container">
                 <div class="row">
                     <div class="col-xs-12">
@@ -110,12 +103,12 @@
 <script>
     import { globalStore } from '../main.js'
 
-    import axios from 'axios';
+    import { mapActions, mapGetters } from 'vuex'
 
     export default {
         name: 'blogList',
         data: () => ({
-             Menu_About: "",
+            Menu_About: "",
             Menu_Ingredients: "",
             Menu_News: "news",
             Menu_Online_Shop: "",
@@ -145,6 +138,10 @@
         },
          
         methods: {
+            ...mapActions('app', {
+                getBlogList: "getBlogList",
+                getStaticFiles: "getStaticFiles"
+            }),
             GotoPage: function (page) {
                 if (page == 'about') { this.$router.push({ path: `/about` }); }
                 else if (page == 'ingredients') { this.$router.push({ path: `/ingredients` }); }
@@ -155,12 +152,10 @@
                  else if (page == 'news') { this.$router.push({ path: `/news` }); }
 
             }, 
-            GetBlogDetailsList() {             
-                axios.get("posts/" + globalStore.LangDomain ,{
-        headers: { 'Authorization': 'Bearer '+localStorage.getItem("koozmetikToken") }
-      }).then(result => {                  
-                    if(result.data && result.data.results.length >0){
-                        this.blogList = result.data.results;                   
+            GetBlogDetailsList() {
+                this.getBlogList(globalStore.LangDomain).then(result => {                 
+                    if(result && result.results.length >0){
+                        this.blogList = result.results;                   
                     }
                     else{                         
                          const toast = this.$swal.mixin({
